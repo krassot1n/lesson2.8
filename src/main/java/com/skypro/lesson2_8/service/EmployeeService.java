@@ -5,6 +5,7 @@ import com.skypro.lesson2_8.record.EmployeeRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,30 +14,36 @@ public class EmployeeService {
     Map<String, Employee> epmployeesMap = new HashMap<>(Map.of(
             "Муратов Айадил",
             new Employee("Муратов","Айадил" ),
-            "Петрова Елена ",
-            new Employee("Петрова", "Елена")));
+            "Гагуля Елена ",
+            new Employee("Гагуля", "Елена")));
 
-    public Employee add(EmployeeRequest employeeRequest) {
+    public Employee add(EmployeeRequest employeeRequest) throws EmployeeAllReadyAddedException {
         Employee employee = new Employee(employeeRequest.getFirstName(), employeeRequest.getLastName());
-        this.epmployeesMap.put(employeeRequest.getFirstName() + " " + employeeRequest.getLastName(), employee);
+        if (epmployeesMap.containsKey(employee.getFullName())){
+            throw new EmployeeAllReadyAddedException();
+        }
+        epmployeesMap.put(employeeRequest.getFullName(), employee);
         return employee;
     }
 
-    public void remove(String firstName, String lastName) {
-        if (epmployeesMap.containsKey(firstName + " " + lastName)) {
-            epmployeesMap.remove(firstName + " " + lastName);
+    public Employee remove(String firstName, String lastName){
+        Employee employee = new Employee(firstName, lastName);
+        if (epmployeesMap.containsKey(employee.getFullName())) {
+            return epmployeesMap.remove(employee.getFullName());
         }
+        throw new EmployeeNotFoundException();
     }
 
-    public Employee find(String firstName, String lastName) {
-        if (epmployeesMap.containsKey(firstName + " " + lastName)){
-            return epmployeesMap.get(firstName + " " + lastName);
+    public Employee find(String firstName, String lastName){
+        Employee employee = new Employee(firstName, lastName);
+        if (epmployeesMap.containsKey(employee.getFullName())){
+            return epmployeesMap.get(employee.getFullName());
         }
-        throw new RuntimeException("Сотрудник не найден");
+        throw new EmployeeNotFoundException();
     }
 
     public Collection<Employee> getAllEmployee() {
-        return this.epmployeesMap.values();
+        return Collections.unmodifiableCollection(epmployeesMap.values());
     }
 
 }

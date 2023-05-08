@@ -5,6 +5,9 @@ public class EmployeeRequest {
     private String lastName;
 
 
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 
     public String getFirstName() {
         return firstName;
