@@ -4,23 +4,16 @@ Content-Type: application/json
 
 {
   "firstName": "Красотин",
-  "lastName": "Андрей"
-}
-
-### Создаем сотрудника №2
-POST http://localhost:8080/employyee/add
-Content-Type: application/json
-
-{
-  "firstName": "Мухитов",
-  "lastName": "Жандос"
+  "lastName": "Андрей",
+  "salary":"120000",
+  "department": "1"
 }
 
 ### Получаем всех сотрудников
-GET http://localhost:8080/employyee/getAll
+GET http://localhost:8080/dept/all
 
 ### Ищем сотрудника
-GET http://localhost:8080/employyee/find?firstName = Мухитов&lastName = Жандос
+GET http://localhost:8080/employyee/find?firstName = Мухитов&lastName = Жандос&salary = 98000&department = 1
 
 ### Удаляем сотрудника
 GET http://localhost:8080/employyee/remove?firstName = Мухитов&lastName = Жандос

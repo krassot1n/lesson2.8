@@ -1,4 +1,4 @@
-package com.skypro.lesson2_8.service;
+package com.skypro.lesson2_8.exceptions;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
