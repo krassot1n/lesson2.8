@@ -2,14 +2,18 @@ package com.skypro.lesson2_8.service;
 
 import com.skypro.lesson2_8.exceptions.EmployeeAllReadyAddedException;
 import com.skypro.lesson2_8.exceptions.EmployeeNotFoundException;
+import com.skypro.lesson2_8.exceptions.InvalidInputException;
 import com.skypro.lesson2_8.model.Employee;
 import com.skypro.lesson2_8.record.EmployeeRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 @Service
 public class EmployeeService {
@@ -45,6 +49,7 @@ public class EmployeeService {
     }
 
     public Employee remove(String firstName, String lastName, int salary, int department) {
+        validateInput(firstName,lastName);
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (epmployeesMap.containsKey(employee.getFullName())) {
             return epmployeesMap.remove(employee.getFullName());
@@ -53,6 +58,7 @@ public class EmployeeService {
     }
 
     public Employee find(String firstName, String lastName, int salary, int department) {
+        validateInput(firstName,lastName);
         Employee employee = new Employee(firstName, lastName, salary, department);
         if (epmployeesMap.containsKey(employee.getFullName())) {
             return epmployeesMap.get(employee.getFullName());
@@ -62,6 +68,12 @@ public class EmployeeService {
 
     public Collection<Employee> getAllEmployee() {
         return Collections.unmodifiableCollection(epmployeesMap.values());
+    }
+
+    private void validateInput(String firstName,String lastName){
+        if(!(isAlpha(firstName)&& isAlpha(lastName))){
+            throw new InvalidInputException();
+        }
     }
 
 }
