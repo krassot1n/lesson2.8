@@ -1,14 +1,13 @@
 package com.skypro.lesson2_8.controller;
 
 import com.skypro.lesson2_8.model.Employee;
-import com.skypro.lesson2_8.record.EmployeeRequest;
 import com.skypro.lesson2_8.service.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 
 @RestController
-@RequestMapping("/employyee")
+@RequestMapping("/employees")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -16,9 +15,13 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @PostMapping("/add")
-    public Employee addEmployee(@RequestBody EmployeeRequest employeeRequest) {
-        return this.employeeService.add(employeeRequest);
+    @GetMapping("/add")
+    public String add(@RequestParam("firstName") String firstName,
+                      @RequestParam("firstName") String lastName,
+                      @RequestParam("salary") int salary,
+                      @RequestParam("dept") int dept) {
+//        es.addEmployee(name, salary, dept);
+        return "<h1>Сотрудник " + employeeService.addEmployee(firstName, lastName, salary, dept) + " добавлен</h1>";
     }
 
     @GetMapping("getAll")
@@ -27,12 +30,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int salary, @RequestParam int department) {
+    public Employee findEmployee(@RequestParam String firstName,
+                                 @RequestParam String lastName,
+                                 @RequestParam int salary,
+                                 @RequestParam int department) {
         return this.employeeService.find(firstName, lastName, salary, department);
     }
 
     @GetMapping("/remove")
-    public void removeEmployee(@RequestParam String firstName, @RequestParam String lastName, @RequestParam int salary, @RequestParam int department) {
+    public void removeEmployee(@RequestParam String firstName,
+                               @RequestParam String lastName,
+                               @RequestParam int salary,
+                               @RequestParam int department) {
         this.employeeService.remove(firstName, lastName, salary, department);
     }
 }

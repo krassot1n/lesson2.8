@@ -4,8 +4,6 @@ import com.skypro.lesson2_8.exceptions.EmployeeAllReadyAddedException;
 import com.skypro.lesson2_8.exceptions.EmployeeNotFoundException;
 import com.skypro.lesson2_8.exceptions.InvalidInputException;
 import com.skypro.lesson2_8.model.Employee;
-import com.skypro.lesson2_8.record.EmployeeRequest;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -39,12 +37,12 @@ public class EmployeeService {
             "Приходько Валерий",
             new Employee("Приходько", "Валерий", 94000, 1)));
 
-    public Employee add(EmployeeRequest employeeRequest) throws EmployeeAllReadyAddedException {
-        Employee employee = new Employee(employeeRequest.getFirstName(), employeeRequest.getLastName(), employeeRequest.getSalary(), employeeRequest.getDepartment());
+    public Employee addEmployee(String firstName,String lastName, int salary, int department) throws EmployeeAllReadyAddedException {
+        Employee employee = new Employee(firstName, lastName, salary, department);
         if (epmployeesMap.containsKey(employee.getFullName())) {
             throw new EmployeeAllReadyAddedException();
         }
-        epmployeesMap.put(employeeRequest.getFullName(), employee);
+        epmployeesMap.put(employee.getFullName(), employee);
         return employee;
     }
 
